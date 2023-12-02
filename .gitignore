@@ -1,0 +1,8 @@
+__pycache__
+.vscode
+outputs
+tensorboard
+data
+CleanSpeech_training
+Noise_training
+NoisySpeech_training
