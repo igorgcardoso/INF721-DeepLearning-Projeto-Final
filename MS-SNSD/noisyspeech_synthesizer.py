@@ -45,7 +45,7 @@ def main(cfg):
     total_secs = total_hours*60*60
     total_samples = int(total_secs * fs)
     audio_length = int(audio_length*fs)
-    SNR = np.linspace(snr_lower, snr_upper, total_snrlevels)
+    SNR = np.linspace(snr_lower, snr_upper, int(round(total_snrlevels)))
     cleanfilenames = glob.glob(os.path.join(clean_dir, audioformat))
     if cfg["noise_types_excluded"]=='None':
         noisefilenames = glob.glob(os.path.join(noise_dir, audioformat))
