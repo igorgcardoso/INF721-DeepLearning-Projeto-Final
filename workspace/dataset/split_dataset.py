@@ -42,10 +42,13 @@ def split_dataset():
     for file in Y_val_dir.glob("*"):
         file.unlink()
 
-    X_train_dir.rmdir()
-    Y_train_dir.rmdir()
-    X_val_dir.rmdir()
-    Y_val_dir.rmdir()
+    try:
+        X_train_dir.rmdir()
+        Y_train_dir.rmdir()
+        X_val_dir.rmdir()
+        Y_val_dir.rmdir()
+    except FileNotFoundError:
+        pass
 
     X_train_dir.mkdir(parents=True, exist_ok=True)
     Y_train_dir.mkdir(parents=True, exist_ok=True)

@@ -15,7 +15,13 @@ configparser = "^6.0.0"
 datasets = { extras = ["audio"], version = "^2.15.0" }
 safetensors = "^0.4.1"
 torchmetrics = "^1.2.1"
+pillow = "^10.1.0"
 
+
+[tool.poetry.group.dev.dependencies]
+jupyter = "^1.0.0"
+torchinfo = "^1.8.0"
+utils = "^1.0.1"
 
 [build-system]
 requires = ["poetry-core"]

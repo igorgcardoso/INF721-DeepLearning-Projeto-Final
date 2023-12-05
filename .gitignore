@@ -6,3 +6,4 @@ data
 CleanSpeech_training
 Noise_training
 NoisySpeech_training
+out/

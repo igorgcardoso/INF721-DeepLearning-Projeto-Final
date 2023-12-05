@@ -96,7 +96,7 @@ class ResidualAttentionBlock(nn.Module):
         return x
 
 
-class Model(nn.Module):
+class Supressor(nn.Module):
     def __init__(self, n_state: int = 512, n_head: int = 8, n_layer: int = 6, n_ctx: int = 1500):
         super().__init__()
         self.conv = nn.Sequential(
@@ -115,9 +115,9 @@ class Model(nn.Module):
         )
         self.ln_norm_decoder = nn.LayerNorm(n_state)
         self.trans_conv = nn.Sequential(
-            nn.ConvTranspose1d(n_ctx, n_state, 3, padding=1),
+            nn.ConvTranspose1d(n_state, n_state, 3, padding=1),
             nn.GELU(),
-            nn.ConvTranspose1d(n_state, 80, 3, padding=1, stride=4),
+            nn.ConvTranspose1d(n_state, 80, 3, padding=1, stride=2, output_padding=1),
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -130,5 +130,26 @@ class Model(nn.Module):
         for decoder in self.decoder:
             x = decoder(x)
         x = self.ln_norm_decoder(x)
+        x = x.permute(0, 2, 1)
         x = self.trans_conv(x)
         return x
+
+    def from_pretrained(self):
+        pass
+
+    def suppress(self, file: str) -> torch.Tensor:
+        from dataset.prepare import prepare
+        from datasets import Audio, Dataset
+
+        dataset = Dataset.from_dict({"input": file})
+        dataset = dataset.cast_column("input", Audio(16000))
+        dataset = dataset.map(prepare)
+        dataset.set_format(type="torch", columns=["input"])
+
+        x = next(iter(dataset))["input"]
+        x = x.unsqueeze(0)
+        x = x.to(self.device)
+
+        y_hat = self(x)
+
+        return y_hat
