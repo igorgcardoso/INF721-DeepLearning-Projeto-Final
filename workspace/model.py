@@ -1,3 +1,10 @@
+"""
+Código copiado do whisper - OpenAI
+- https://github.com/openai/whisper
+A classe `Supressor` foi adaptada para o projeto.
+"""
+
+
 from typing import Iterator, Optional
 
 import numpy as np

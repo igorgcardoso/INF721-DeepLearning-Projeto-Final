@@ -1,3 +1,8 @@
+"""
+Código copiado do whisper - OpenAI
+- https://github.com/openai/whisper
+"""
+
 from typing import Any, Dict, Union
 
 import numpy as np
